@@ -1,5 +1,5 @@
 var quadras = $.ajax({
-  url:"https://raw.githubusercontent.com/lfpdroubi/CarlosPrates/master/Quadras.geojson",
+  url:"https://raw.githubusercontent.com/lfpdroubi/ExpressaSul/master/Quadras.geojson",
   dataType: "json",
   success: console.log("Quadras data successfully loaded."),
   error: function (xhr) {
@@ -8,7 +8,7 @@ var quadras = $.ajax({
 });
 
 var limites = $.ajax({
-  url:"https://raw.githubusercontent.com/lfpdroubi/CarlosPrates/master/AreaTotal2.geojson",
+  url:"https://raw.githubusercontent.com/lfpdroubi/ExpressaSul/master/LimitesAterro.geojson",
   dataType: "json",
   success: console.log("Limits data successfully loaded."),
   error: function (xhr) {
@@ -17,7 +17,7 @@ var limites = $.ajax({
 });
 
 var areasVerdes = $.ajax({
-  url:"https://raw.githubusercontent.com/lfpdroubi/CarlosPrates/master/AreasVerdes.geojson",
+  url:"https://raw.githubusercontent.com/lfpdroubi/ExpressaSul/master/AreasVerdes.geojson",
   dataType: "json",
   success: console.log("AreasVerdes data successfully loaded."),
   error: function (xhr) {
@@ -26,7 +26,7 @@ var areasVerdes = $.ajax({
 });
 
 var institucional = $.ajax({
-  url:"https://raw.githubusercontent.com/lfpdroubi/CarlosPrates/master/AreaInstitucional.geojson",
+  url:"https://raw.githubusercontent.com/lfpdroubi/ExpressaSul/master/AreasInstitucionais.geojson",
   dataType: "json",
   success: console.log("Institutinal data successfully loaded."),
   error: function (xhr) {
@@ -38,7 +38,7 @@ var institucional = $.ajax({
   // Add the variable for each of your AJAX requests to $.when()
   $.when(quadras, limites, areasVerdes, institucional).done(function() {
 
-  var mappos = L.Permalink.getMapLocation(zoom = 13, center = [-19.909, -43.99]);
+  var mappos = L.Permalink.getMapLocation(zoom = 14, center = [-27.62587,-48.53059]);
 
   var map = L.map('map', {
     center: mappos.center,
