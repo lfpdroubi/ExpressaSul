@@ -68,9 +68,6 @@ var institucional = $.ajax({
   //.open('home');
 
 
-  // Adds SIRGAS2000 definition
-  proj4.defs('EPSG:31982', '+proj=utm +zone=22 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs ');
-
   // Basemaps
 
   var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
@@ -98,8 +95,13 @@ var institucional = $.ajax({
 	maxZoom: 20,
 	ext: 'png'
   });
+  
+  // Adds SIRGAS2000 definition
+  proj4.defs('EPSG:31982', '+proj=utm +zone=22 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs ');
 
-  var LIMITES = L.geoJSON(limites.responseJSON, {
+  // Adds SIRGAS2000 GeoJSON
+
+  var LIMITES = L.Proj.geoJson(limites.responseJSON, {
     style: {
       color: 'yellow',
       weight: 2
