@@ -78,6 +78,15 @@ var institucional = $.ajax({
 
 
   // Basemaps
+  
+  var wmsLayer = L.tileLayer.wms(
+    'http://sigsc.sc.gov.br/sigserver/SIGSC/wms', {
+      maxNativeZoom: 19,
+      maxZoom: 100,
+      layers: 'OrtoRGB-Landsat-2012',
+      label: "SIG/SC",
+      iconURL: 'sig-sc.png'
+  });
 
   var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
 	  maxZoom: 17,
@@ -139,21 +148,21 @@ var institucional = $.ajax({
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
-        "<b>Área (m2): </b>" + feature.properties.Area
+        "<b>Área (m2): </b>" + feature.properties.Area.toLocaleString('de-DE', { maximumFractionDigits: 2 }) 
       );
     }
   });
   
   var Lotes = L.Proj.geoJson(lotes.responseJSON, {
     style: {
-      color: 'blue',
+      color: 'gray',
       weight: 2
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
-        "<b>Lote:</b>" + feature.properties.ID +"<br>" +
-        "<b>Área (m2): </b>" + feature.properties.area + "<br>" +
-        "<b>Perímetro (m): </b>" + feature.properties.perimeter
+        "<b>Lote: </b>" + feature.properties.ID +"<br>" +
+        "<b>Área (m2): </b>" + feature.properties.area.toLocaleString('de-DE', { maximumFractionDigits: 2 })  + "<br>" +
+        "<b>Perímetro (m): </b>" + feature.properties.perimeter.toLocaleString('de-DE', { maximumFractionDigits: 2 }) 
       );
     }
   }).addTo(map);
@@ -165,7 +174,7 @@ var institucional = $.ajax({
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
-        "<b>Área: </b>" + feature.properties.Area
+        "<b>Área (m2): </b>" + feature.properties.Area.toLocaleString('de-DE', { maximumFractionDigits: 2 })
       );
     }
   }).addTo(map);
@@ -177,7 +186,7 @@ var institucional = $.ajax({
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
-        "<b>Área: </b>" + feature.properties.Area
+        "<b>Área (m2): </b>" + feature.properties.Area.toLocaleString('de-DE', { maximumFractionDigits: 2 })
       );
     }
   }).addTo(map);
@@ -207,6 +216,7 @@ var institucional = $.ajax({
   */
 
   var baseLayers = {
+    "Ortofotos (2012)": wmsLayer,
 		"OpenTopoMap": OpenTopoMap,
 		"Esri Satélite": Esri_WorldImagery,
 		"Aquarela (Stamen)": Stamen_Watercolor,
@@ -236,6 +246,7 @@ var institucional = $.ajax({
 
 	map.on('click', onMapClick);
 
+  /*
 	map.locate({setView: true, maxZoom: 16});
 
 	function onLocationFound(e) {
@@ -253,5 +264,5 @@ var institucional = $.ajax({
 
   map.on('locationfound', onLocationFound);
   map.on('locationerror', onLocationError);
-
+  */
 });
