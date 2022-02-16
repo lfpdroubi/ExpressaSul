@@ -65,7 +65,7 @@ var institucional = $.ajax({
 
   var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-  }).addTo(map);
+  });
 
   // create the sidebar instance and add it to the map
   var sidebar = L.control.sidebar({
@@ -86,7 +86,7 @@ var institucional = $.ajax({
       layers: 'OrtoRGB-Landsat-2012',
       label: "SIG/SC",
       iconURL: 'sig-sc.png'
-  });
+  }).addTo(map);
 
   var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
 	  maxZoom: 17,
@@ -148,6 +148,7 @@ var institucional = $.ajax({
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
+        "<b>Quadra: </b>" + feature.properties.ID +"<br>" +
         "<b>Área (m2): </b>" + feature.properties.Area.toLocaleString('de-DE', { maximumFractionDigits: 2 }) 
       );
     }
@@ -186,6 +187,7 @@ var institucional = $.ajax({
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
+        "<b>Id: </b>" + feature.properties.ID +"<br>" +
         "<b>Área (m2): </b>" + feature.properties.Area.toLocaleString('de-DE', { maximumFractionDigits: 2 })
       );
     }
