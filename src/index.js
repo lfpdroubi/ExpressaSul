@@ -7,6 +7,15 @@ var quadras = $.ajax({
   }
 });
 
+var lotes = $.ajax({
+  url:"https://raw.githubusercontent.com/lfpdroubi/ExpressaSul/master/Lotes.geojson",
+  dataType: "json",
+  success: console.log("Lotes data successfully loaded."),
+  error: function (xhr) {
+    alert(xhr.statusText);
+  }
+});
+
 var limites = $.ajax({
   url:"https://raw.githubusercontent.com/lfpdroubi/ExpressaSul/master/LimitesAterro.geojson",
   dataType: "json",
@@ -36,7 +45,7 @@ var institucional = $.ajax({
 
   /* when().done() SECTION*/
   // Add the variable for each of your AJAX requests to $.when()
-  $.when(quadras, limites, areasVerdes, institucional).done(function() {
+  $.when(quadras, lotes, limites, areasVerdes, institucional).done(function() {
 
   var mappos = L.Permalink.getMapLocation(zoom = 14, center = [-27.62587,-48.53059]);
 
@@ -133,6 +142,20 @@ var institucional = $.ajax({
         "<b>Área (m2): </b>" + feature.properties.Area
       );
     }
+  });
+  
+  var Lotes = L.Proj.geoJson(lotes.responseJSON, {
+    style: {
+      color: 'blue',
+      weight: 2
+    },
+    onEachFeature: function( feature, layer ){
+      layer.bindPopup(
+        "<b>Lote:</b>" + feature.properties.ID +"<br>" +
+        "<b>Área (m2): </b>" + feature.properties.area + "<br>" +
+        "<b>Perímetro (m): </b>" + feature.properties.perimeter
+      );
+    }
   }).addTo(map);
 
   var AreasVerdes = L.geoJSON(areasVerdes.responseJSON, {
@@ -197,6 +220,7 @@ var institucional = $.ajax({
   var overlays = {
 		"Limites": LIMITES,
 		"Quadras": Quadras,
+		"Lotes": Lotes,
 		"institucional": Institucional,
 		"Áreas Verdes": AreasVerdes
 	};
