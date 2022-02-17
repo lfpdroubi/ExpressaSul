@@ -163,7 +163,13 @@ var institucional = $.ajax({
       layer.bindPopup(
         "<b>Lote: </b>" + feature.properties.ID +"<br>" +
         "<b>Área (m2): </b>" + feature.properties.area.toLocaleString('de-DE', { maximumFractionDigits: 2 })  + "<br>" +
-        "<b>Perímetro (m): </b>" + feature.properties.perimeter.toLocaleString('de-DE', { maximumFractionDigits: 2 }) 
+        "<b>Perímetro (m): </b>" + feature.properties.perimeter.toLocaleString('de-DE', { maximumFractionDigits: 2 }) + "<br>" +
+        "<b>Valor Unitário (R$/m2): </b>" + feature.properties.fit.toLocaleString('de-DE', { maximumFractionDigits: 2 }) + "<br>" +
+        "<b>Valor Unitário Mínimo (R$/m2): </b>" + feature.properties.lwr.toLocaleString('de-DE', { maximumFractionDigits: 2 }) + "<br>" +
+        "<b>Valor Unitário Máximo (R$/m2): </b>" + feature.properties.upr.toLocaleString('de-DE', { maximumFractionDigits: 2 }) + "<br>" +
+        "<b>Valor Total (R$/m2): </b>" + feature.properties.Vmedio.toLocaleString('de-DE', { maximumFractionDigits: 2 }) + "<br>" +
+        "<b>Valor Total Mínimo (R$/m2): </b>" + feature.properties.Vmin.toLocaleString('de-DE', { maximumFractionDigits: 2 }) + "<br>" +
+        "<b>Valor Total Máximo (R$/m2): </b>" + feature.properties.Vmax.toLocaleString('de-DE', { maximumFractionDigits: 2 }) + "<br>" 
       );
     }
   }).addTo(map);
