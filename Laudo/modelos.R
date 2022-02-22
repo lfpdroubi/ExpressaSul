@@ -67,7 +67,7 @@ lotes <- cbind(lotes, Valores)
 write_sf(st_transform(lotes, 4326), "Lotes.geojson", delete_dsn = T)
 
 kable(st_drop_geometry(lotes[, c("ID", "Vadotado", "Vmin", "Vmedio", "Vmax")]),
-     col.names = c("ID", "Valor adotado", "Valor mínimo", "Valor Mediano", "Valor máximo"),
+     col.names = c("ID", "Valor Adotado", "Valor Mínimo", "Valor Mediano", "Valor Máximo"),
      digits = 0, format.args = list(big.mark = ".", decimal.mark = ',')
     )
 
