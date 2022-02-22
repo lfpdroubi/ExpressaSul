@@ -37,7 +37,7 @@ lotes <- read_sf("Lotes.geojson")
 
 lotes <- lotes[, c(3, 1, 2)]
 
-# 12 pav.
+# 6 pav.
 
 p <- predict(fit, 
              newdata = expand.grid(AreaTotal = lotes$area, Viabilidade = 6, 
@@ -48,6 +48,8 @@ p <- as.data.frame(p)
 
 P <- exp(p)
 
+P <- P[, c("lwr", "fit", "upr")]
+
 lotes <- cbind(lotes, P)
 
 # lotes <- lotes[order(lotes$ID), ]
@@ -57,6 +59,7 @@ Valores <- within(lotes, {
   Vmedio <- area*fit
   Vmin <- area*lwr
   Vadotado <- .9*Vmedio
+  VU <- Vadotado/area
   rm(ID, area, perimeter, fit, lwr, upr)
 })
 
@@ -64,7 +67,7 @@ Valores <- st_drop_geometry(Valores)
 
 lotes <- cbind(lotes, Valores)
 
-write_sf(st_transform(lotes, 4326), "Lotes.geojson", delete_dsn = T)
+write_sf(lotes, "Lotes.geojson", delete_dsn = T)
 
 kable(st_drop_geometry(lotes[, c("ID", "Vadotado", "Vmin", "Vmedio", "Vmax")]),
      col.names = c("ID", "Valor Adotado", "Valor Mínimo", "Valor Mediano", "Valor Máximo"),
