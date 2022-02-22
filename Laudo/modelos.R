@@ -35,10 +35,12 @@ plot(predictorEffects(fit),
 
 lotes <- read_sf("Lotes.geojson")
 
+lotes <- lotes[, c(3, 1, 2)]
+
 # 12 pav.
 
 p <- predict(fit, 
-             newdata = expand.grid(AreaTotal = lotes$area, Viabilidade = 9, 
+             newdata = expand.grid(AreaTotal = lotes$area, Viabilidade = 6, 
                             DataEvento = factor("Fev/2022")),
              interval = "confidence", level = .80)
 
@@ -48,49 +50,25 @@ P <- exp(p)
 
 lotes <- cbind(lotes, P)
 
-lotes <- lotes[order(lotes$ID), ]
+# lotes <- lotes[order(lotes$ID), ]
 
-lotes <- within(lotes, {
-  Vmin <- area*lwr
-  Vmedio <- area*fit
+Valores <- within(lotes, {
   Vmax <- area*upr
+  Vmedio <- area*fit
+  Vmin <- area*lwr
+  Vadotado <- .9*Vmedio
+  rm(ID, area, perimeter, fit, lwr, upr)
 })
 
-lotes <- lotes[, c(1:6, 9, 8, 7, 10)]
+Valores <- st_drop_geometry(Valores)
 
-write_sf(st_transform(lotes, 4326), "LotesMod.geojson", delete_dsn = T)
+lotes <- cbind(lotes, Valores)
 
-# Média do Valor Unitário dos lotes
+write_sf(st_transform(lotes, 4326), "Lotes.geojson", delete_dsn = T)
 
-exp(p$fit)
-
-mean(exp(p$fit))
-
-# Valor Total dos lotes
-
-sum(exp(p$fit)*lotes$area)
-
-# 6 pav.
-
-p <- predict(fit, 
-             newdata = expand.grid(AreaTotal = lotes$area, Viabilidade = 6, 
-                                   DataEvento = factor("Fev/2022")),
-             interval = "confidence", level = .80)
-
-p <- as.data.frame(p)
-
-# Média do Valor Unitário dos lotes
-
-exp(p$fit)
-
-mean(exp(p$fit))
-
-# Valor Total dos lotes
-
-sum(exp(p$fit)*lotes$area)
-
-kable(st_drop_geometry(lotes[, c("ID", "fit", "lwr", "upr", "Vmedio", "Vmin", "Vmax")]),
-     col.names = c("ID", "VU médio", "VU mínimo", "VU Máximo", "VT médio", 
-                    "VT mínimo", "VT máximo"),
+kable(st_drop_geometry(lotes[, c("ID", "Vadotado", "Vmin", "Vmedio", "Vmax")]),
+     col.names = c("ID", "Valor adotado", "Valor mínimo", "Valor Mediano", "Valor máximo"),
      digits = 0, format.args = list(big.mark = ".", decimal.mark = ',')
     )
+
+sum(lotes$Vadotado)
