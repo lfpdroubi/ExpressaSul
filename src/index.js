@@ -126,7 +126,7 @@ var institucional = $.ajax({
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
-        "<b>Área (m2): </b>" + feature.properties.Area
+        "<b>Área (m2): </b>" + feature.properties.area
       );
     }
   }).addTo(map);
@@ -143,8 +143,8 @@ var institucional = $.ajax({
 */
   var Quadras = L.Proj.geoJson(quadras.responseJSON, {
     style: {
-      color: 'blue',
-      weight: 2
+      color: 'red',
+      weight: 1
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
@@ -156,8 +156,8 @@ var institucional = $.ajax({
   
   var Lotes = L.Proj.geoJson(lotes.responseJSON, {
     style: {
-      color: 'gray',
-      weight: 2
+      color: 'blue',
+      weight: 1
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
